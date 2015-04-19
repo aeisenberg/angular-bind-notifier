@@ -1,0 +1,16 @@
+{
+  "esnext": true,
+  "bitwise": true,
+  "camelcase": true,
+  "eqeqeq": true,
+  "eqnull": false,
+  "indent": 2,
+  "latedef": "nofunc",
+  "newcap": true,
+  "noarg": true,
+  "regexp": true,
+  "unused": true,
+  "nonbsp": true,
+  "-W092": true,
+  "maxcomplexity": 10
+}

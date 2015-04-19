@@ -1,0 +1,40 @@
+{
+  "name": "angular-bind-notifier",
+  "version": "0.0.1",
+  "description": "on demand refreshing of angular bindings",
+  "main": "dist/angular-bind-notifier.min.js",
+  "scripts": {
+    "test": "karma start karma.conf.js",
+    "lint": "jshint src/*.js",
+    "build:min": "uglifyjs src/*.js -o dist/angular-bind-notifier.min.js",
+    "build:beauty": "uglifyjs src/*.js -o dist/angular-bind-notifier.js -b -i 2",
+    "build": "npm run build:min; npm run build:beauty"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kasperlewau/angular-bind-notifier.git"
+  },
+  "keywords": [
+    "angular",
+    "angular-binding",
+    "angular-refresh"
+  ],
+  "author": "Kasper Lewau <lewauu@gmail.com> (https://github.com/kasperlewau)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kasperlewau/angular-bind-notifier/issues"
+  },
+  "homepage": "https://github.com/kasperlewau/angular-bind-notifier",
+  "devDependencies": {
+    "angular-mocks": "^1.3.15",
+    "chai": "^2.2.0",
+    "jshint": "^2.7.0",
+    "karma": "^0.12.31",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^0.1.10",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "mocha": "^2.2.4",
+    "phantomjs": "^1.9.16",
+    "uglify-js": "^2.4.20"
+  }
+}
