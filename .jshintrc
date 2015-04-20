@@ -12,5 +12,6 @@
   "unused": true,
   "nonbsp": true,
   "-W092": true,
+  "validthis": true,
   "maxcomplexity": 10
 }

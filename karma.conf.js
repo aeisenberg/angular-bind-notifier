@@ -5,8 +5,7 @@ module.exports = function(config) {
     files: [
       'bower_components/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
-      'bower_components/lodash/lodash.js',
-      'src/module.js',
+      'src/_module.js',
       'src/*.js',
       'test/*.js'
     ],

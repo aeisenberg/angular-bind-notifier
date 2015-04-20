@@ -2,41 +2,36 @@
 
   'use strict';
 
-  function cloneExpression (getter) {
-    return _.merge(function () {
-      return getter.apply(this, arguments);
-    }, getter);
-  }
+  function dynamicWatcher (expr, notifier) {
+    function wrap (watchDelegate, scope, listener, objectEquality, parsedExpression) {
+      var delegateCall = watchDelegate.bind(this, scope, listener, objectEquality, parsedExpression);
+      scope.$on('$$rebind::' + notifier, delegateCall);
+      delegateCall();
+    }
 
-  function wrapper (expr, notifier) {
-    return _.wrap(expr.$$watchDelegate, function (originalWatchDelegate, scope, listener, objectEquality, parsedExpression ) {
-      scope.$on('$$rebind::' + notifier, function () {
-        return originalWatchDelegate.call(this, scope, listener, objectEquality, parsedExpression);
-      });
-
-      return originalWatchDelegate.call(this, scope, listener, objectEquality, parsedExpression);
-    });
+    return wrap.bind(this, expr.$$watchDelegate);
   }
 
   function $parseDecorator ($delegate, bindNotifierRegex) {
-    var wrappedFn = _.wrap($delegate, function ($parse, exp, interceptor) {
+    function wrap (parse, exp, interceptor) {
       var match, expression, rawExpression, notifier;
 
-      if (_.isString(exp) && (match = exp.match(bindNotifierRegex))) {
+      if (typeof exp === 'string' && (match = exp.match(bindNotifierRegex))) {
         notifier      = match[1];
         rawExpression = match[2];
 
-        expression = cloneExpression($parse.apply(this, ['::' + rawExpression, interceptor]));
-        expression.$$watchDelegate = wrapper(expression, notifier);
+        expression = parse.call(this, '::' + rawExpression, interceptor);
+        expression.$$watchDelegate = dynamicWatcher(expression, notifier);
 
         return expression;
       } else {
-        return $parse.apply(this, _.compact([exp, interceptor]));
+        var args = [exp, interceptor];
+        if (!interceptor) { args.pop(); }
+        return parse.apply(this, args);
       }
-    });
-    wrappedFn.$inject = ['$parse', 'exp', 'interceptor'];
+    }
 
-    return wrappedFn;
+    return wrap.bind(null, $delegate);
   }
   $parseDecorator.$inject = ['$delegate', 'bindNotifierRegex'];
 
