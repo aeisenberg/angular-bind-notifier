@@ -1,12 +1,12 @@
 {
   "name": "angular-bind-notifier",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "homepage": "https://github.com/kasperlewau/angular-bind-notifier",
   "authors": [
     "Kasper Lewau <lewauu@gmail.com> (https://github.com/kasperlewau)"
   ],
   "description": "on demand refreshing of angular bindings",
-  "main": "dist/bindNotifier.js",
+  "main": "dist/angular-bind-notifier.js",
   "keywords": [
     "angular",
     "angular-binding",
