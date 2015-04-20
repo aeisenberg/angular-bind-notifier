@@ -6,7 +6,7 @@
     "Kasper Lewau <lewauu@gmail.com> (https://github.com/kasperlewau)"
   ],
   "description": "on demand refreshing of angular bindings",
-  "main": "dist/angular-bind-notifier.min.js",
+  "main": "dist/bindNotifier.js",
   "keywords": [
     "angular",
     "angular-binding",
