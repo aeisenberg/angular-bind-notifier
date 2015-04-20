@@ -12,14 +12,14 @@
             compile: function(element, attributes) {
                 var expr = JSON.parse(attributes.bindNotifier.replace(/'/g, '"')), keys = Object.keys(expr), len = keys.length;
                 return function link(scope) {
-                    function handler(name, newVal, oldVal, scope) {
+                    function handler(key, newVal, oldVal) {
                         if (newVal !== oldVal) {
-                            scope.$broadcast("$$rebind::" + name, newVal, oldVal, scope);
+                            scope.$broadcast("$$rebind::" + key, newVal, oldVal, scope);
                         }
                     }
-                    for (var i = 0; i < len; i++) {
-                        scope.$watch(expr[keys[i]], handler.bind(null, keys[i]), typeof expr[keys[i]] === "object");
-                    }
+                    keys.forEach(function(key) {
+                        scope.$watch(expr[key], handler.bind(null, key), typeof scope[expr[key]] === "object");
+                    });
                 };
             }
         };
@@ -29,22 +29,27 @@
 
 (function() {
     "use strict";
-    function dynamicWatcher(expr, notifier) {
+    function dynamicWatcher(expr, notifiers) {
         function wrap(watchDelegate, scope, listener, objectEquality, parsedExpression) {
             var delegateCall = watchDelegate.bind(this, scope, listener, objectEquality, parsedExpression);
-            scope.$on("$$rebind::" + notifier, delegateCall);
+            notifiers.forEach(function(n) {
+                scope.$on("$$rebind::" + n, delegateCall);
+            });
             delegateCall();
         }
         return wrap.bind(this, expr.$$watchDelegate);
     }
     function $parseDecorator($delegate, bindNotifierRegex) {
         function wrap(parse, exp, interceptor) {
-            var match, expression, rawExpression, notifier;
-            if (typeof exp === "string" && (match = exp.match(bindNotifierRegex))) {
-                notifier = match[1];
-                rawExpression = match[2];
+            var match, expression, rawExpression, notifiers;
+            if (typeof exp === "string" && bindNotifierRegex.test(exp)) {
+                match = exp.split(":").filter(function(v) {
+                    return !!v;
+                });
+                notifiers = match.slice(0, -1);
+                rawExpression = match[match.length - 1];
                 expression = parse.call(this, "::" + rawExpression, interceptor);
-                expression.$$watchDelegate = dynamicWatcher(expression, notifier);
+                expression.$$watchDelegate = dynamicWatcher(expression, notifiers);
                 return expression;
             } else {
                 var args = [ exp, interceptor ];

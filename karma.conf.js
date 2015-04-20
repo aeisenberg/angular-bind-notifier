@@ -1,7 +1,7 @@
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['mocha', 'chai'],
+    frameworks: ['mocha', 'chai', 'sinon-chai'],
     files: [
       'bower_components/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',

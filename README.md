@@ -41,6 +41,11 @@ angular.module('your_module_name', [ 'angular-bind-notifier' ]);
   <span>{{:keyTwo:expression}}</span>
 </div>
 
+<!-- Multiple notifiers/expressions for a single binding -->
+<div bind-notifier="{ 'keyOne': 'exprOne', 'keyTwo': 'exprTwo' }">
+  <span>{{:keyOne:keyTwo:expression}}</span>
+</div>
+
 <!-- Nested notifiers -->
 <div bind-notifier="{ 'keyOne': 'exprOne' }">
   <div bind-notifier="{ 'keyTwo': 'exprTwo' }">

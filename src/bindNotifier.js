@@ -8,19 +8,18 @@
       scope: true,
       compile: function (element, attributes) {
         var expr = JSON.parse(attributes.bindNotifier.replace(/'/g, '"')),
-            keys = Object.keys(expr),
-            len  = keys.length;
+            keys = Object.keys(expr);
 
         return function link (scope) {
-          function handler (name, newVal, oldVal, scope) {
+          function handler (key, newVal, oldVal) {
             if (newVal !== oldVal) {
-              scope.$broadcast(('$$rebind::' + name), newVal, oldVal, scope);
+              scope.$broadcast(('$$rebind::' + key), newVal, oldVal, scope);
             }
           }
 
-          for (var i = 0; i < len; i++) {
-            scope.$watch(expr[keys[i]], handler.bind(null, keys[i]), typeof expr[keys[i]] === 'object');
-          }
+          keys.forEach(function (key) {
+            scope.$watch(expr[key], handler.bind(null, key), typeof scope[expr[key]] === 'object');
+          });
         };
       }
     };
