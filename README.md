@@ -10,13 +10,6 @@ Modifies the internal `$parse` service to accomodate a new binding syntax, allow
   <script src="path/to/angular-bind-notifier/dist/angular-bind-notifier.js">
 ```
 
-#### Installation::NPM
-```js
-  npm install angular-bind-notifier --save
-
-  var angular-bind-notifier = require('angular-bind-notifier');
-```
-
 #### Installation::JSPM
 ```js
   jspm install angular-bind-notifier --save
