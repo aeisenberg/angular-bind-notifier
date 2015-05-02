@@ -7,6 +7,7 @@ module.exports = function(config) {
       'node_modules/angular-mocks/angular-mocks.js',
       'src/_module.js',
       'src/*.js',
+      'test/bind.poly.js',
       'test/*.js'
     ],
     port: 8067,
