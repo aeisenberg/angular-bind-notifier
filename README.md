@@ -1,3 +1,4 @@
+![travisci](https://travis-ci.org/kasperlewau/angular-bind-notifier.svg?branch=master)
 ## angular-bind-notifier
 **Note:** This is experimental. Performance is not guaranteed.
 

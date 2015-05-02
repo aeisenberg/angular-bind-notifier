@@ -11,7 +11,7 @@ module.exports = function(config) {
     ],
     port: 8067,
     logLevel: config.LOG_INFO,
-    singleRun: false,
+    singleRun: true,
     browsers: [ 'PhantomJS' ]
   });
 };
