@@ -87,6 +87,17 @@ that of the bound expression key `{{:supahKey:expr}}`.
 And there you go, your bindings just got refreshed - without having to wait for a `$watched` expression
 to change.
 
+### what about ng-bind? 
+
+ng-bind works *just fine* if you're working with primitives. 
+If however you want to bind something other than a primitive, you cannot - due to [https://github.com/angular/angular.js/issues/11716](https://github.com/angular/angular.js/issues/11716). 
+
+A temporary workaround is to do the following: 
+
+```html
+  <span ng-bind-template="{{:key:bound}}"></span>
+```
+
 ### Running tests
 `npm install; npm test`
 
