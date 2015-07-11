@@ -1,6 +1,6 @@
 {
   "name": "angular-bind-notifier",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "on demand refreshing of angular bindings",
   "main": "dist/angular-bind-notifier.js",
   "scripts": {
@@ -17,7 +17,10 @@
   "keywords": [
     "angular",
     "angular-binding",
-    "angular-refresh"
+    "angular-refresh",
+    "angular-bind-once",
+    "angular-bind-refresh",
+    "angular-dynamic-bind"
   ],
   "author": "Kasper Lewau <lewauu@gmail.com> (https://github.com/kasperlewau)",
   "license": "MIT",

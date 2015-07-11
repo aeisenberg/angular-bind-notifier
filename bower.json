@@ -1,6 +1,6 @@
 {
   "name": "angular-bind-notifier",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "homepage": "https://github.com/kasperlewau/angular-bind-notifier",
   "authors": [
     "Kasper Lewau <lewauu@gmail.com> (https://github.com/kasperlewau)"
@@ -10,7 +10,10 @@
   "keywords": [
     "angular",
     "angular-binding",
-    "angular-refresh"
+    "angular-refresh",
+    "angular-bind-once",
+    "angular-bind-refresh",
+    "angular-dynamic-bind"
   ],
   "license": "MIT",
   "ignore": [

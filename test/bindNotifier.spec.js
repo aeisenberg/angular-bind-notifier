@@ -6,32 +6,39 @@
     var $scope, el, span, createEl, run, broadcaster;
 
     beforeEach(function () {
-      module('angular-bind-notifier');
+      module('angular.bind.notifier');
 
       inject(function ($compile, $rootScope) {
         $scope = $rootScope.$new();
 
         createEl = function (exprObjs, expression) {
-          var keyExprString = '',
-              keys          = [];
-
           exprObjs = exprObjs || [];
 
-          exprObjs.forEach(function (obj) {
-            Object.keys(obj).forEach(function (k) {
-              keys.push(k);
-            });
+          var keys = [], values = [];
 
-            keyExprString += JSON.stringify(obj);
+          exprObjs.forEach(function (kv) {
+            Object.keys(kv).forEach(function (k) {
+              keys.push(k);
+              values.push(kv[k]);
+            });
           });
 
-          var template = '<div bind-notifier="' + keyExprString.replace(/"/g, "'") + '">' +
-                           '<span>{{:' + keys.join(':') + ':' + expression + '}}</span>' +
-                         '</div>';
+          var string = '';
 
-          el   = $compile(template)($scope);
-          span = el[0].children[0];
+          keys.forEach(function (k, i) {
+            var joinColon   = (k + ':' + values[i]);
+            var splitComma  = ((i >= 0 && keys[keys.length - 1] !== k) ? ',' : '');
+            string += joinColon + splitComma;
+          });
+
+          var tpl = '<div bind-notifier="{ ' + string + ' }">' +
+                      '<span>{{:' + keys.join(':') + ':' + expression + '}}</span>' +
+                    '</div>';
+
+          el          = $compile(tpl)($scope);
+          span        = el[0].firstChild;
           broadcaster = sinon.spy(el.scope(), '$broadcast');
+
           $scope.$digest();
         };
 
@@ -43,7 +50,7 @@
     });
 
     it('creates a child scope', function () {
-      createEl([{ k1: 'k1Expr' }]);
+      createEl([{ k1: 'k1Expr', k2: 'k2Expr' }]);
       expect(el.scope()).to.not.equal($scope);
     });
 

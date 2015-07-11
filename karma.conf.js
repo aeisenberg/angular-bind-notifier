@@ -5,8 +5,7 @@ module.exports = function(config) {
     files: [
       'bower_components/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
-      'src/_module.js',
-      'src/*.js',
+      'src/bindNotifier.js',
       'test/bind.poly.js',
       'test/*.js'
     ],

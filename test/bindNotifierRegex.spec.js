@@ -6,7 +6,7 @@
     var subject;
 
     beforeEach(function () {
-      module('angular-bind-notifier');
+      module('angular.bind.notifier');
 
       inject(function ($injector) {
         subject = $injector.get('bindNotifierRegex');
