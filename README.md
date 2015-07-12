@@ -7,7 +7,7 @@
 ### installation
 ```
   /** with Bower **/
-  bower install angular-q-thenresolve --save
+  bower install angular-bind-notifier --save
   <script src="path/to/angular-bind-notifier/dist/angular-bind-notifier.js"></script>
 
   /** with jspm **/
