@@ -1,4 +1,5 @@
-## angular-bind-notifier ![travisci](https://travis-ci.org/kasperlewau/angular-bind-notifier.svg?branch=master)
+## angular-bind-notifier [![travisci](https://travis-ci.org/kasperlewau/angular-bind-notifier.svg?branch=master)](https://travis-ci.org/kasperlewau/angular-bind-notifier)
+
 > adds on-demand (and dynamic) re-evaluation of angular one-time bindings
 
 
