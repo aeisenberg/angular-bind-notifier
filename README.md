@@ -1,6 +1,9 @@
 ## angular-bind-notifier ![travisci](https://travis-ci.org/kasperlewau/angular-bind-notifier.svg?branch=master)
 > adds on-demand (and dynamic) re-evaluation of angular one-time bindings
 
+
+**[running example @ jsBin](http://jsbin.com/mariwadeqo/edit?html,js,output)**
+
 ### installation
 ```
   /** with Bower **/
