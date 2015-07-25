@@ -71,7 +71,7 @@
 
       expect(span.innerText).to.equal('n');
 
-      expectBroadcast('once');
+      expect(broadcaster).to.have.been.calledOnce.and.calledWith('$$rebind::k1');
     });
 
     it('binds the childscope value of the watched expression if it exists', function () {
@@ -83,7 +83,7 @@
       run('k1Expr');
 
       expect(span.innerText).to.equal('childValue');
-      expectBroadcast('once');
+      expect(broadcaster).to.have.been.calledOnce.and.calledWith('$$rebind::k1');
     });
 
     it('allows multiple notifier keys', function () {
@@ -98,7 +98,7 @@
       run('k2Expr');
       expect(span.innerText).to.equal('val2');
 
-      expectBroadcast('twice');
+      expect(broadcaster).to.have.been.calledTwice.and.calledWithMatch('$$rebind');
     });
 
     it('sets up a deep watch if the expressions points to an object', function () {
@@ -111,15 +111,18 @@
       $scope.$digest();
 
       expect(span.innerText).to.equal('val1');
-      expectBroadcast('once');
+      expect(broadcaster).to.have.been.calledOnce.and.calledWith('$$rebind::k1');
     });
 
-    function expectBroadcast (times, scope) {
-      times = times.charAt(0).toUpperCase() + times.slice(1);
+    it('does not broadcast bloat data', function () {
+      $scope.dummy = 'y';
+      createEl([{ k1: 'k1Expr' }], 'dummy');
 
-      expect(broadcaster).to.have.been['called' + times]
-        .and.calledWithMatch('$$rebind::', sinon.match.any, sinon.match.any, {});
-    }
+      $scope.dummy = 'n';
+      run('k1Expr');
+
+      expect(broadcaster).to.have.been.calledOnce.and.calledWith('$$rebind::k1');
+    });
   });
 
 }());

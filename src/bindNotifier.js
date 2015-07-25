@@ -51,7 +51,7 @@
         return function link (scope) {
           function handler (key, newVal, oldVal) {
             if (newVal !== oldVal) {
-              scope.$broadcast(('$$rebind::' + key), newVal, oldVal, scope);
+              scope.$broadcast('$$rebind::' + key);
             }
           }
 
