@@ -2,7 +2,7 @@
 
   'use strict';
 
-  describe('bindNotifier directive', function () {
+  describe('bindNotifier {Directive}', function () {
     var $scope, el, span, createEl, run, broadcaster;
 
     beforeEach(function () {

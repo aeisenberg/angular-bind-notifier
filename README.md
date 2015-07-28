@@ -1,12 +1,12 @@
-## angular-bind-notifier [![travisci](https://travis-ci.org/kasperlewau/angular-bind-notifier.svg?branch=master)](https://travis-ci.org/kasperlewau/angular-bind-notifier)
+# angular-bind-notifier [![travisci](https://travis-ci.org/kasperlewau/angular-bind-notifier.svg?branch=master)](https://travis-ci.org/kasperlewau/angular-bind-notifier)
 
-> adds on-demand (and dynamic) re-evaluation of angular one-time bindings
+> on-demand & semi-automatic re-evaluation of angular one-time bindings
 
 
 **[running example @ jsBin](http://jsbin.com/mariwadeqo/edit?html,js,output)**
 
-### installation
-```
+## installation
+```js
   /** with Bower **/
   bower install angular-bind-notifier --save
   <script src="path/to/angular-bind-notifier/dist/angular-bind-notifier.js"></script>
@@ -16,54 +16,56 @@
   import 'angular-bind-notifier';
 ```
 
-### description
-This package is meant for those who want to be able to refresh their one-time bindings
-occasionally.
+## description
+This package is meant for those looking for a middleground between two way binding, and one time bindings. *someTimeBinding?*
 
-This is based on the work done by [@kseamon](https://github.com/kseamon/fast-bind) on fast-bind and [@kasperlewau's bower port](https://github.com/kasperlewau/fast-bind), but
-it is designed to resemble the one time binding syntax introduced with Angular 1.3 - `{{:: }}`.
+Based off of the work done by [@kseamon](https://github.com/kseamon/fast-bind) on fast-bind, [a proposal from August 2014 on labeled bindings](https://docs.google.com/document/d/1fTqaaQYD2QE1rz-OywvRKFSpZirbWUPsnfaZaMq8fWI/edit#) and [@kasperlewau's bower port of fast-bind](https://github.com/kasperlewau/fast-bind),
+designed to closely resemble the one-time double-colon syntax introduced with Angular 1.3.
 
-The idea is to pass a `key` in between the two colons of the expression, that has been preregistered
-with the `bind-notifier` directive.
+The idea is to pass a set of `key(s)` between the first and second colon of a one-time expression.
 
-A `scope.$watch` is then setup for the `expression`, and whenever the expression changes a `$broadcast`
-is sent off with the `key`, effectively notifying every binding with the `{{:key:expression}}` syntax to refresh itself.
+Said key(s) will need to be pre-registered with a corresponding value, either by a `bind-notifier` directive or or a `$Notifier` instance, DI'd and coupled with your `$scope`.
 
-The `bind-notifier` directive accepts multiple key:expression's for use within the newly created childscope.
+Once a key's value changes, a broadcast will be sent down through the descendant scopes, letting each expression
+with the `:key:expr` syntax know that it is time to re-evaluate the result of the expression.
 
-### possible use cases
-* Data that changes occasionally.
-* Translation(s) of the entire page, where static data needs to be re-translated.
-* Slow `$interval` updates of value(s).
-* and more?
+Possible use cases include but are not limited to;
 
-### usage
+* Model data that changes seldomly, that then needs to be reflected in the view.
+* Translation(s) of the entire page (or a subsection), where static data needs to be re-translated.
+
+## usage
 ```js
-  angular.module('your_module_name', [ 'angular.bind.notifier' ]);
+// inject the module dependency
+angular.module('your_module_name', [ 'angular.bind.notifier' ]);
 ```
-**single notifierkey:expression**
+
+### bind-notifier
+
 ```html
+<!--single notifierkey:expression-->
 <div bind-notifier="{ notifierKey:watchedExpression }">
   <span>{{:notifierKey:someExpressionToBind}}</span>
 </div>
 ```
-**multiple notifierkey:expression's**
+
 ```html
+<!--multiple notifierkey:expression's-->
 <div bind-notifier="{ keyOne:watchedExprOne, keyTwo:watchedExprTwo }">
   <span>{{:keyOne:someExpressionToBind}}</span>
   <span>{{:keyTwo:someExpressionToBind}}</span>
 </div>
 ```
-**multiple notifierkey:expression's (for a single binding)**
-> yes, a single binding can compose multiple expressions for it's re-evaluation
 
 ```html
+<!--multiple notifierkey:expression's (for a single binding)-->
 <div bind-notifier="{ keyOne:watchedExprOne, keyTwo:watchedExprTwo }">
   <span>{{:keyOne:keyTwo:someExpressionToBind}}</span>
 </div>
 ```
-**nested notifiers**
+
 ```html
+<!--nested bind-notifiers-->
 <div bind-notifier="{ keyOne:watchedExprOne }">
   <div bind-notifier="{ keyTwo:watchedExprTwo }">
     <span>{{:keyOne:someExpressionToBind}}</span>
@@ -73,37 +75,46 @@ The `bind-notifier` directive accepts multiple key:expression's for use within t
 </div>
 ```
 
-### manually refreshing
-The above use cases showcase how a $watched expression would refresh
-the bindings.
+### $Notifier(scope, notifierMap)
 
-But what if one wants to refresh the bindings manually, **right now?**
+The `$Notifier` *factory* returns a constructor function for you to setup a new $Notifier instance.
 
-*don't fret.*
+Both params (`$scope` & `notifierMap`) are **required**, a lack of either is considered a programmatical error and an error will be thrown.
 
-Get onto the `$scope` of the bind-notifier and send off a `$broadcast` in the following format, where `key` matches
-that of the bound expression key `{{:supahKey:expr}}`.
 
 ```js
-  $scope.$broadcast('$$rebind::' + 'supahKey');
+.controller('...', function ($scope, $Notifier) {
+  $scope.a = 'a';
+  $scope.b = 'b';
+
+  new $Notifier($scope, {
+    aNameSpace: 'a',
+    bNameSpace: 'b'
+  });
+});
+```
+```html
+<span ng-bind=":aNameSpace:expression"></span>
+<span ng-bind=":bNameSpace:expression"></span>
 ```
 
-And there you go, your bindings just got refreshed - without having to wait for a `$watched` expression
-to change.
+### manual refreshment
+The above use cases showcase how $watched expressions refrehs binds.
 
-### what about ng-bind?
+What happens behind the scenes is that a `$broadcast` is sent with the `$$rebind::` prefix, followed by the key
+of your notifier key:value mapping.
 
-ng-bind works *just fine* if you're working with primitives.
-If however you want to bind something other than a primitive, you cannot - due to [https://github.com/angular/angular.js/issues/11716](https://github.com/angular/angular.js/issues/11716).
-
-A temporary workaround is to do the following:
+As such, you can manually $broadcast whenever you want to refresh the binds - you don't *need* to setup a semi-automatic watcher through `bind-notifier` or `$Notifier`.
 
 ```html
-  <span ng-bind-template="{{:key:bound}}"></span>
+<span ng-bind=":superduper:expression">
+```
+```js
+$scope.$broadcast('$$rebind::' + 'superduper'); // binding: refreshed!
 ```
 
-### testing
+## testing
 `npm install; npm test`
 
-### license
+## license
 MIT © [Kasper Lewau](https://github.com/kasperlewau)
