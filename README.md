@@ -2,9 +2,6 @@
 
 > on-demand & semi-automatic re-evaluation of angular one-time bindings
 
-
-**[running example @ jsBin](http://jsbin.com/mariwadeqo/edit?html,js,output)**
-
 ## installation
 ```js
   /** with Bower **/
@@ -41,6 +38,8 @@ angular.module('your_module_name', [ 'angular.bind.notifier' ]);
 ```
 
 ### bind-notifier
+> [jsbin example](http://jsbin.com/boxafasibo/1/edit?html,js,output)
+
 
 ```html
 <!--single notifierkey:expression-->
@@ -76,6 +75,7 @@ angular.module('your_module_name', [ 'angular.bind.notifier' ]);
 ```
 
 ### $Notifier(scope, notifierMap)
+> [jsbin example](http://jsbin.com/zelaqimihe/1/edit?html,js,output)
 
 The `$Notifier` *factory* returns a constructor function for you to setup a new $Notifier instance.
 
@@ -99,6 +99,8 @@ Both params (`$scope` & `notifierMap`) are **required**, a lack of either is con
 ```
 
 ### manual refreshment
+> [jsbin example](http://jsbin.com/tovexareje/1/edit?html,js,output)
+
 The above use cases showcase how $watched expressions refrehs binds.
 
 What happens behind the scenes is that a `$broadcast` is sent with the `$$rebind::` prefix, followed by the key
