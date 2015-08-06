@@ -1,16 +1,16 @@
-# angular-bind-notifier [![travisci](https://travis-ci.org/kasperlewau/angular-bind-notifier.svg?branch=master)](https://travis-ci.org/kasperlewau/angular-bind-notifier) [![bitHound Score](https://www.bithound.io/github/kasperlewau/angular-bind-notifier/badges/score.svg)](https://www.bithound.io/github/kasperlewau/angular-bind-notifier) [![Bower version](https://badge.fury.io/bo/angular-bind-notifier.svg)](http://badge.fury.io/bo/angular-bind-notifier)
+# angular-bind-notifier
+
+[![travisci](https://travis-ci.org/kasperlewau/angular-bind-notifier.svg?branch=master)](https://travis-ci.org/kasperlewau/angular-bind-notifier) [![bitHound Score](https://www.bithound.io/github/kasperlewau/angular-bind-notifier/badges/score.svg)](https://www.bithound.io/github/kasperlewau/angular-bind-notifier) [![Bower version](https://badge.fury.io/bo/angular-bind-notifier.svg)](http://badge.fury.io/bo/angular-bind-notifier) ![NPM version](https://img.shields.io/npm/v/angular-bind-notifier.svg)
 
 > on-demand & semi-automatic re-evaluation of angular one-time bindings
 
 ## installation
 ```js
-  /** with Bower **/
   bower install angular-bind-notifier --save
-  <script src="path/to/angular-bind-notifier/dist/angular-bind-notifier.js"></script>
-
-  /** with jspm **/
   jspm install angular-bind-notifier --save
-  import 'angular-bind-notifier';
+  npm install angular-bind-notifier --save
+
+  <script src="path/to/angular-bind-notifier/dist/angular-bind-notifier.js"></script>
 ```
 
 ## description
