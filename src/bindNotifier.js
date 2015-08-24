@@ -71,6 +71,16 @@
    * for the bind-notifier binding syntax set up by the bindNotifierRegex
    * to be used in the given application.
    *
+   * Split the given expression with the notifierSplitRegex so as to allow
+   * for object literals in the expression (think ng-class, angular-translate etc).
+   * NOTE: Currently does _not_ support objet literals without spaces, i.e.:
+   *
+   * {x:foo,y:bar,z:baz}
+   *
+   * You have to space out your object literal in order for the regex work properly:
+   *
+   * {x: foo, y: bar, z: baz}
+   *
    * @example
    *
    * ## Single Notifiers
@@ -82,17 +92,21 @@
    * ng-bind=":n1:n2:n3:expression"
    * ng-repeat="x in :n1:n2:n3:expression"
    * <span>{{:n1:n2:n3:expression}}</span>
+   *
+   * ## Object literals
+   * ng-class=":n1:{x: xExpr, y: yExpr}"
+   * ng-bind=":n1:'string' | translate: { translate-value: 'x' }"
    */
   ParseDecorator.$inject = ['$provide'];
   function ParseDecorator ($provide) {
 
-    $parseDecorator.$inject = ['$delegate', 'bindNotifierRegex'];
-    function $parseDecorator ($delegate, bindNotifierRegex) {
+    $parseDecorator.$inject = ['$delegate', 'bindNotifierRegex', 'notifierSplitRegex'];
+    function $parseDecorator ($delegate, bindNotifierRegex, notifierSplitRegex) {
       function wrap (parse, exp, interceptor) {
         var match, expression, rawExpression, notifiers;
 
         if (typeof exp === 'string' && bindNotifierRegex.test(exp)) {
-          match         = exp.split(':').filter(function (v) { return !!v; });
+          match         = exp.split(notifierSplitRegex).filter(function (v) { return !!v; });
           notifiers     = match.slice(0, -1);
           rawExpression = match[match.length - 1];
 
@@ -212,6 +226,7 @@
   angular
     .module('angular.bind.notifier', [])
     .constant('bindNotifierRegex', /^:([a-zA-Z0-9][\w-]*):(.+)$/)
+    .constant('notifierSplitRegex', /:(?!\s)/)
     .factory('$Notifier', $NotifierFactory)
     .directive('bindNotifier', bindNotifierDirective)
     .config(ParseDecorator);

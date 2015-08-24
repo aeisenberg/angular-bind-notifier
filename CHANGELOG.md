@@ -1,3 +1,7 @@
+# Release 1.1.1 (2015-08-24)
+- Partially fixed an issue with object literals in notifier expressions
+  - Reference issues: #3, #4.
+
 # Release 1.1.0 (2015-07-28)
 
 - Added: `Notifier` factory to allow setting up notification namespaces without a bind-notifier directive.
