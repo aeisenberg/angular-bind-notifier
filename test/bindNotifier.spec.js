@@ -54,7 +54,7 @@
       expect(el.scope()).to.not.equal($scope);
     });
 
-    it('does not update the bound value if the watched expression didnt change', function () {
+    it('does not update the bound value if the watched expression did not change', function () {
       $scope.dummy = 'y';
       createEl([{ k1: 'k1Expr' }], 'dummy');
       $scope.dummy = 'n';
@@ -123,6 +123,46 @@
 
       expect(broadcaster).to.have.been.calledOnce.and.calledWith('$$rebind::k1');
     });
+
+    context('object expression', function() {
+      context('when terse', function() {
+        expectBothSingleAndMultiple('{value:dummy}.value');
+      });
+      context('when spaces are present', function() {
+        expectBothSingleAndMultiple(' { value : dummy }.value ');
+      });
+    });
+
+    context('array expression', function() {
+      context('when terse', function() {
+        expectBothSingleAndMultiple('[null,{value:dummy}][1].value');
+      });
+      context('when spaces are present', function() {
+        expectBothSingleAndMultiple(' [ null , { value: dummy } ][1].value ');
+      });
+    });
+
+    function expectBothSingleAndMultiple(expression) {
+      it('handles a single notifier key', function() {
+        createEl([{ k1: 'k1Expr' }], expression);
+
+        $scope.dummy = 'glenn';
+        run('k1Expr');
+
+        expect(span.innerText).to.equal('glenn');
+      });
+      it('handles several notifier keys', function() {
+        createEl([{ k1: 'k1Expr' }, { k2: 'k2Expr' }], expression);
+
+        $scope.dummy = 1;
+        run('k1Expr');
+        expect(span.innerText).to.equal('1');
+
+        $scope.dummy = 2;
+        run('k2Expr');
+        expect(span.innerText).to.equal('2');
+      });
+    }
   });
 
 }());
