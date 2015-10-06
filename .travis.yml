@@ -12,6 +12,8 @@ before_script:
   - bower install
   - npm install
 
+script: npm run lint && npm test
+
 email:
   on_failure: change
   on_success: never
