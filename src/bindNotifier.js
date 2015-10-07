@@ -154,7 +154,7 @@
       scope: true,
       compile: function (element, attrs) {
         var notifierMap = {};
-        var keyValues      = attrs.bindNotifier.replace(/[\{\}\s]/g, '').split(',');
+        var keyValues   = attrs.bindNotifier.replace(/[\{\}\s]/g, '').split(',');
 
         keyValues.forEach(function (kv) {
           var split = kv.split(':');
