@@ -1,0 +1,321 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>angular-bind-notifier by kasperlewau</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+    <script src="https://cdn.rawgit.com/kasperlewau/angular-bind-notifier/master/dist/angular-bind-notifier.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+    <script src="javascripts/app.js"></script>
+  </head>
+  <body ng-app="bn">
+    <div id="header">
+      <nav>
+        <li class="fork"><a href="https://github.com/kasperlewau/angular-bind-notifier">View On GitHub</a></li>
+        <li class="downloads"><a href="https://github.com/kasperlewau/angular-bind-notifier/zipball/master">ZIP</a></li>
+        <li class="downloads"><a href="https://github.com/kasperlewau/angular-bind-notifier/tarball/master">TAR</a></li>
+        <li class="title">DOWNLOADS</li>
+      </nav>
+    </div>
+
+    <div class="wrapper">
+      <section>
+        <div id="title">
+          <h1>angular-bind-notifier</h1>
+          <p style="color: #2196F3;">on demand refreshing of angular bindings</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/kasperlewau">kasperlewau</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <blockquote>
+          <strong>Examples of bind-notifier usage at the bottom.</strong><br>* Press 'start' to see watchCount and the result of different bindings. <br>* 'Kill 'em all' to clean out.
+        </blockquote>
+
+        <br><br>
+
+        <hr>
+
+        <article ng-controller="ctrl">
+          <header style="clear: both;">
+            <h2 style="float: left;">Regular bindings</h2>
+            <div style="float: right;">
+              <button ng-click="kill()">Kill 'em all!</button>
+              <button ng-click="start(false)">Start</button>
+            </div>
+          </header>
+          <pre style="clear: both;">
+&lt;div&gt;
+  &lt;i ng-repeat="e in els">{{ "{{e" + "}" + "}" }}&lt;/i&gt;
+&lt;/div&gt;</pre>
+          <div>
+            <pre>
+            <h4>Watch Count(-2): <span style="color: red;">{{watchCount-2}}</span></h4><h4>Element Count: {{elCounter}}</h4><div style="word-wrap: break-word; height: 120px; overflow: scroll;"><i ng-repeat="e in els">{{e}}&nbsp;</i></div>
+            </pre>
+          </div>
+          <blockquote>IT WORKS! but... oh so heavy.</blockquote>
+          <br>
+        </article>
+
+        <article ng-controller="ctrl">
+          <header style="clear: both;">
+            <h2 style="float: left;">Regular bindings (w/ track by)</h2>
+            <div style="float: right;">
+              <button ng-click="kill()">Kill 'em all!</button>
+              <button ng-click="start(false)">Start</button>
+            </div>
+          </header>
+          <pre style="clear: both;">
+&lt;div&gt;
+  &lt;i ng-repeat="e in els track by $index">{{ "{{e" + "}" + "}" }}&lt;/i&gt;
+&lt;/div&gt;</pre>
+          <div>
+            <pre>
+            <h4>Watch Count(-2): <span style="color: red;">{{watchCount-2}}</span></h4><h4>Element Count: {{elCounter}}</h4><div style="word-wrap: break-word; height: 120px; overflow: scroll;"><i ng-repeat="e in els track by $index">{{e}}&nbsp;</i></div>
+            </pre>
+          </div>
+          <blockquote>IT WORKS! but... oh so heavy.</blockquote>
+          <br>
+        </article>
+
+        <hr>
+
+        <article ng-controller="ctrl">
+          <header style="clear: both;">
+            <h2 style="float: left;">Regular bindings (w/ track by) (w/ shuffle)</h2>
+            <div style="float: right;">
+              <button ng-click="kill()">Kill 'em all!</button>
+              <button ng-click="start(true)">Start</button>
+            </div>
+          </header>
+          <pre style="clear: both;">
+&lt;div&gt;
+  &lt;i ng-repeat="e in els track by $index">{{ "{{e" + "}" + "}" }}&lt;/i&gt;
+&lt;/div&gt;</pre>
+          <div>
+            <pre>
+            <h4>Watch Count(-2): <span style="color: red;">{{watchCount-2}}</span></h4><h4>Element Count: {{elCounter}}</h4><div style="word-wrap: break-word; height: 120px; overflow: scroll;"><i ng-repeat="e in els track by $index">{{e}}&nbsp;</i></div>
+            </pre>
+          </div>
+          <blockquote>IT WORKS! but... oh so heavy.</blockquote>
+          <br>
+        </article>
+
+        <hr>
+
+        <article ng-controller="ctrl">
+          <header style="clear: both;">
+            <h2 style="float: left;">One time bindings</h2>
+            <div style="float: right;">
+              <button ng-click="kill()">Kill 'em all!</button>
+              <button ng-click="start(false)">Start</button>
+            </div>
+          </header>
+          <pre style="clear: both;">
+&lt;div&gt;
+  &lt;i ng-repeat="e in els">{{ "{{::e" + "}" + "}" }}&lt;/i&gt;
+&lt;/div&gt;</pre>
+          <div>
+            <pre>
+            <h4>Watch Count(-2): <span style="color: red;">{{watchCount-2}}</span></h4><h4>Element Count: {{elCounter}}</h4><div style="word-wrap: break-word; height: 120px; overflow: scroll;"><i ng-repeat="e in els">{{::e}}&nbsp;</i></div>
+            </pre>
+          </div>
+          <blockquote>IT WORKS! smoooth....</blockquote>
+          <br>
+        </article>
+
+        <hr>
+
+        <article ng-controller="ctrl">
+          <header style="clear: both;">
+            <h2 style="float: left;">One time bindings (w/ track by)</h2>
+            <div style="float: right;">
+              <button ng-click="kill()">Kill 'em all!</button>
+              <button ng-click="start(false)">Start</button>
+            </div>
+          </header>
+          <pre style="clear: both;">
+&lt;div&gt;
+  &lt;i ng-repeat="e in els track by $index">{{ "{{::e" + "}" + "}" }}&lt;/i&gt;
+&lt;/div&gt;</pre>
+          <div>
+            <pre>
+            <h4>Watch Count(-2): <span style="color: red;">{{watchCount-2}}</span></h4><h4>Element Count: {{elCounter}}</h4><div style="word-wrap: break-word; height: 120px; overflow: scroll;"><i ng-repeat="e in els track by $index">{{::e}}&nbsp;</i></div>
+            </pre>
+          </div>
+          <blockquote>IT WORKS! smoooth....</blockquote>
+          <br>
+        </article>
+
+        <hr>
+
+        <article ng-controller="ctrl">
+          <header style="clear: both;">
+            <h2 style="float: left;">One time bindings (w/ track by) (w/ shuffle)</h2>
+            <div style="float: right;">
+              <button ng-click="kill()">Kill 'em all!</button>
+              <button ng-click="start(true)">Start</button>
+            </div>
+          </header>
+          <pre style="clear: both;">
+&lt;div&gt;
+  &lt;i ng-repeat="e in els track by $index">{{ "{{::e" + "}" + "}" }}&lt;/i&gt;
+&lt;/div&gt;</pre>
+          <div>
+            <pre>
+            <h4>Watch Count(-2): <span style="color: red;">{{watchCount-2}}</span></h4><h4>Element Count: {{elCounter}}</h4><div style="word-wrap: break-word; height: 120px; overflow: scroll;"><i ng-repeat="e in els track by $index">{{::e}}&nbsp;</i></div>
+            </pre>
+          </div>
+          <blockquote>IT... IT DOESN'T WORK!</blockquote>
+          <br>
+        </article>
+
+        <hr>
+
+        <article ng-controller="ctrl">
+          <header style="clear: both;">
+            <h2 style="float: left;">Notified ng-repeat/one time bindings</h2>
+            <div style="float: right;">
+              <button ng-click="kill()">Kill 'em all!</button>
+              <button ng-click="start(false)">Start</button>
+            </div>
+          </header>
+          <pre style="clear: both;">
+&lt;div bind-notifier="{ ns: rebind }"&gt;
+  &lt;i ng-repeat="e in :ns:els">{{ "{{::e" + "}" + "}" }}&lt;/i&gt;
+&lt;/div&gt;</pre>
+          <div>
+            <pre>
+            <h4>Watch Count(-2): <span style="color: red;">{{watchCount-2}}</span></h4><h4>Element Count: {{elCounter}}</h4><div style="word-wrap: break-word; height: 120px; overflow: scroll;" bind-notifier="{ ns: rebind }"><i ng-repeat="e in :ns:els">{{::e}}&nbsp;</i></div>
+            </pre>
+          </div>
+          <blockquote>IT WORKS! and it's got the moves like jaggy...</blockquote>
+          <br>
+        </article>
+
+        <hr>
+
+        <article ng-controller="ctrl">
+          <header style="clear: both;">
+            <h2 style="float: left;">Notified ng-repeat/one time bindings (w/ track by)</h2>
+            <div style="float: right;">
+              <button ng-click="kill()">Kill 'em all!</button>
+              <button ng-click="start(false)">Start</button>
+            </div>
+          </header>
+          <pre style="clear: both;">
+&lt;div bind-notifier="{ ns: rebind }"&gt;
+  &lt;i ng-repeat="e in :ns:els track by $index">{{ "{{::e" + "}" + "}" }}&lt;/i&gt;
+&lt;/div&gt;</pre>
+          <div>
+            <pre>
+            <h4>Watch Count(-2): <span style="color: red;">{{watchCount-2}}</span></h4><h4>Element Count: {{elCounter}}</h4><div style="word-wrap: break-word; height: 120px; overflow: scroll;" bind-notifier="{ ns: rebind }"><i ng-repeat="e in :ns:els track by $index">{{::e}}&nbsp;</i></div>
+            </pre>
+          </div>
+          <blockquote>IT WORKS! and it's got the moves like jaggy...</blockquote>
+          <br>
+        </article>
+
+        <hr>
+
+        <article ng-controller="ctrl">
+          <header style="clear: both;">
+            <h2 style="float: left;">Notified ng-repeat/one time bindings (w/ track by) (w/ shuffle)</h2>
+            <div style="float: right;">
+              <button ng-click="kill()">Kill 'em all!</button>
+              <button ng-click="start(true)">Start</button>
+            </div>
+          </header>
+          <pre style="clear: both;">
+&lt;div bind-notifier="{ ns: rebind }"&gt;
+  &lt;i ng-repeat="e in :ns:els track by $index">{{ "{{::e" + "}" + "}" }}&lt;/i&gt;
+&lt;/div&gt;</pre>
+          <div>
+            <pre>
+            <h4>Watch Count(-2): <span style="color: red;">{{watchCount-2}}</span></h4><h4>Element Count: {{elCounter}}</h4><div style="word-wrap: break-word; height: 120px; overflow: scroll;" bind-notifier="{ ns: rebind }"><i ng-repeat="e in :ns:els track by $index">{{::e}}&nbsp;</i></div>
+            </pre>
+          </div>
+          <blockquote>IT... IT DOESN'T WORK!</blockquote>
+          <br>
+        </article>
+
+        <hr>
+
+        <article ng-controller="ctrl">
+          <header style="clear: both;">
+            <h2 style="float: left;">Notified all the things (w/ track by) (w/ shuffle)</h2>
+            <div style="float: right;">
+              <button ng-click="kill()">Kill 'em all!</button>
+              <button ng-click="start(true)">Start</button>
+            </div>
+          </header>
+          <pre style="clear: both;">
+&lt;div bind-notifier="{ ns: rebind }"&gt;
+  &lt;i ng-repeat="e in :ns:els track by $index">{{ "{{:ns:e" + "}" + "}" }}&lt;/i&gt;
+&lt;/div&gt;</pre>
+          <div>
+            <pre>
+            <h4>Watch Count(-2): <span style="color: red;">{{watchCount-2}}</span></h4><h4>Element Count: {{elCounter}}</h4><div style="word-wrap: break-word; height: 120px; overflow: scroll;" bind-notifier="{ ns: rebind }"><i ng-repeat="e in :ns:els track by $index">{{:ns:e}}&nbsp;</i></div>
+            </pre>
+          </div>
+          <blockquote>IT WORKS! and it's got the moves like jaggy...</blockquote>
+          <br>
+        </article>
+
+        <hr>
+
+        <article ng-controller="ctrl">
+          <header style="clear: both;">
+            <h2 style="float: left;">Regular repeat/notified bindings (w/ track by) (w/ shuffle)</h2>
+            <div style="float: right;">
+              <button ng-click="kill()">Kill 'em all!</button>
+              <button ng-click="start(true)">Start</button>
+            </div>
+          </header>
+          <pre style="clear: both;">
+&lt;div bind-notifier="{ ns: rebind }"&gt;
+  &lt;i ng-repeat="e in els track by $index">{{ "{{:ns:e" + "}" + "}" }}&lt;/i&gt;
+&lt;/div&gt;</pre>
+          <div>
+            <pre>
+            <h4>Watch Count(-2): <span style="color: red;">{{watchCount-2}}</span></h4><h4>Element Count: {{elCounter}}</h4><div style="word-wrap: break-word; height: 120px; overflow: scroll;" bind-notifier="{ ns: rebind }"><i ng-repeat="e in els track by $index">{{:ns:e}}&nbsp;</i></div>
+            </pre>
+          </div>
+          <blockquote>IT WORKS! shuffling, whenever...</blockquote>
+          <br>
+        </article>
+
+        <hr>
+
+        <article ng-controller="ctrl">
+          <header style="clear: both;">
+            <h2 style="float: left;">Regular repeat/length-notified bindings (w/ track by) (w/ shuffle)</h2>
+            <div style="float: right;">
+              <button ng-click="kill()">Kill 'em all!</button>
+              <button ng-click="start(true)">Start</button>
+            </div>
+          </header>
+          <pre style="clear: both;">
+&lt;div bind-notifier="{ ns: els.length }"&gt;
+  &lt;i ng-repeat="e in els track by $index">{{ "{{:ns:e" + "}" + "}" }}&lt;/i&gt;
+&lt;/div&gt;</pre>
+          <div>
+            <pre>
+            <h4>Watch Count(-2): <span style="color: red;">{{watchCount-2}}</span></h4><h4>Element Count: {{elCounter}}</h4><div style="word-wrap: break-word; height: 120px; overflow: scroll;" bind-notifier="{ ns: els.length }"><i ng-repeat="e in els track by $index">{{:ns:e}}&nbsp;</i></div>
+            </pre>
+          </div>
+          <blockquote>IT WORKS! though, it's not the intended use case.</blockquote>
+          <br>
+        </article>
+      </section>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
+  </body>
+</html>
