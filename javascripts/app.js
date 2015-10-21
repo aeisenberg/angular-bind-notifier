@@ -65,7 +65,7 @@
       if (shuffle) {
         int3 = $interval(function () {
           $scope.els = _.shuffle($scope.els);
-        }, 333);
+        });
       }
 
       int2 = $interval(function () {
