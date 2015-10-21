@@ -317,6 +317,29 @@
           <blockquote>IT WORKS! though, it's not the intended use case.</blockquote>
           <br>
         </article>
+
+        <hr>
+
+        <article ng-controller="ctrl">
+          <header style="clear: both;">
+            <h2 style="float: left;">Length notify all the things (w/ track by) (w/ shuffle)</h2>
+            <div style="float: right;">
+              <button ng-click="kill()">Kill 'em all!</button>
+              <button ng-click="start(true)">Start</button>
+            </div>
+          </header>
+          <pre style="clear: both;">
+&lt;div bind-notifier="{ ns: els.length }"&gt;
+  &lt;i ng-repeat="e in :ns:els track by $index">{{ "{{:ns:e" + "}" + "}" }}&lt;/i&gt;
+&lt;/div&gt;</pre>
+          <div>
+            <pre>
+            <h4>Watch Count(-2): <span style="color: red;">{{watchCount-2}}</span></h4><h4>Element Count: {{elCounter}}</h4><div style="word-wrap: break-word; height: 120px; overflow: scroll;" bind-notifier="{ ns: els.length }"><i ng-repeat="e in :ns:els track by $index">{{:ns:e}}&nbsp;</i></div>
+            </pre>
+          </div>
+          <blockquote>IT WORKS! though, it's not the intended use case.</blockquote>
+          <br>
+        </article>
       </section>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
