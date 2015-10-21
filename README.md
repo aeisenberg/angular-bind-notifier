@@ -4,6 +4,8 @@
 
 > on-demand & semi-automatic re-evaluation of angular one-time bindings
 
+## 'ok' examples @ [gh-pages](http://kasperlewau.github.io/angular-bind-notifier/)
+
 ## installation
 ```js
   bower install angular-bind-notifier --save
