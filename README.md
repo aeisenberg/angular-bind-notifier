@@ -103,7 +103,7 @@ Both params (`$scope` & `notifierMap`) are **required**, a lack of either is con
 ### manual refreshment
 > [jsbin example](http://jsbin.com/tovexareje/1/edit?html,js,output)
 
-The above use cases showcase how $watched expressions refrehs binds.
+The above use cases showcase how $watched expressions refresh bindings.
 
 What happens behind the scenes is that a `$broadcast` is sent with the `$$rebind::` prefix, followed by the key
 of your notifier key:value mapping.
