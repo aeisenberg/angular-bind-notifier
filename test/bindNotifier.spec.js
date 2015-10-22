@@ -3,13 +3,14 @@
   'use strict';
 
   describe('bindNotifier {Directive}', function () {
-    var $scope, el, span, createEl, run, broadcaster;
+    var $scope, $compile, el, span, createEl, run, broadcaster;
 
     beforeEach(function () {
       module('angular.bind.notifier');
 
-      inject(function ($compile, $rootScope) {
-        $scope = $rootScope.$new();
+      inject(function ($injector) {
+        $scope   = $injector.get('$rootScope').$new();
+        $compile = $injector.get('$compile');
 
         createEl = function (exprObjs, expression) {
           exprObjs = exprObjs || [];
@@ -139,6 +140,41 @@
       });
       context('when spaces are present', function () {
         expectBothSingleAndMultiple(' [ null , { value: dummy } ][1].value ');
+      });
+    });
+
+    context('directive compatibility', function () {
+      var dirs = [
+        'ng-class', 'ng-hide', 'ng-show', 'ng-bind', 'ng-if',
+        'ng-class-even', 'ng-class-odd', 'ng-pattern'
+      ];
+
+      dirs.forEach(function (dir) {
+        it(dir + ' does not increase $$listener count exponentially', function () {
+          $scope.items = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+          var dom = '<div>' +
+                      '<span ng-repeat="i in :f:items" ' + dir + '=":f:i">{{:f:i}}</span>' +
+                    '</div>';
+
+          dom = $compile(dom)($scope);
+          $scope.$digest();
+
+          $scope.$broadcast('$$rebind::f');
+          $scope.$digest();
+
+          $scope.$broadcast('$$rebind::f');
+          $scope.$digest();
+
+          $scope.$broadcast('$$rebind::f');
+          $scope.$digest();
+
+          $scope.$broadcast('$$rebind::f');
+          $scope.$digest();
+
+          var totalCount = $scope.$$listenerCount['$$rebind::f'];
+
+          expect(totalCount).to.eq($scope.items.length * 2 + 1);
+        });
       });
     });
 
