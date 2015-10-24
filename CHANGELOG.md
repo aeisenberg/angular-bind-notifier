@@ -1,3 +1,10 @@
+# Release 1.1.3 ()
+- Killed the exponential increase in $$listenerCount.
+  - Fixed #5
+
+# Release 1.1.2 (2015-10-09)
+- Killed some odd looking whitespace.
+
 # Release 1.1.1 (2015-08-24)
 - Partially fixed an issue with object literals in notifier expressions
   - Reference issues: #3, #4.

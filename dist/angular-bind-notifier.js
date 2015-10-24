@@ -11,11 +11,16 @@
         });
     }
     function dynamicWatcher(expr, notifierKeys) {
+        function setupListeners(scope, cb) {
+            notifierKeys.forEach(function(nk) {
+                scope.$on("$$rebind::" + nk, cb);
+            });
+        }
         function wrap(watchDelegate, scope, listener, objectEquality, parsedExpression) {
             var delegateCall = watchDelegate.bind(this, scope, listener, objectEquality, parsedExpression);
-            notifierKeys.forEach(function(n) {
-                scope.$on("$$rebind::" + n, delegateCall);
-            });
+            if (/oneTimeWatchDelegate/.test(watchDelegate.toString())) {
+                setupListeners(scope, delegateCall);
+            }
             delegateCall();
         }
         return wrap.bind(this, expr.$$watchDelegate);
@@ -25,13 +30,23 @@
         $parseDecorator.$inject = [ "$delegate", "bindNotifierRegex" ];
         function $parseDecorator($delegate, bindNotifierRegex) {
             function wrap(parse, exp, interceptor) {
-                var match, expression, rawExpression, notifiers;
+                var parts, part, expression, rawExpression, notifiers;
                 if (typeof exp === "string" && bindNotifierRegex.test(exp)) {
-                    match = exp.split(":").filter(function(v) {
-                        return !!v;
-                    });
-                    notifiers = match.slice(0, -1);
-                    rawExpression = match[match.length - 1];
+                    parts = exp.split(/:/);
+                    notifiers = [];
+                    while (parts.length) {
+                        part = parts.shift();
+                        if (part) {
+                            if (/^\s*[\{\[]/.test(part)) {
+                                rawExpression = [ part ].concat(parts).join(":");
+                                break;
+                            }
+                            notifiers.push(part);
+                        }
+                    }
+                    if (!rawExpression) {
+                        rawExpression = notifiers.splice(-1, 1)[0];
+                    }
                     expression = parse.call(this, "::" + rawExpression, interceptor);
                     expression.$$watchDelegate = dynamicWatcher(expression, notifiers);
                     return expression;
