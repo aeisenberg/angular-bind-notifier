@@ -3,13 +3,14 @@
   'use strict';
 
   describe('bindNotifier {Directive}', function () {
-    var $scope, el, span, createEl, run, broadcaster;
+    var $scope, $compile, el, span, createEl, run, broadcaster;
 
     beforeEach(function () {
       module('angular.bind.notifier');
 
-      inject(function ($compile, $rootScope) {
-        $scope = $rootScope.$new();
+      inject(function ($injector) {
+        $scope   = $injector.get('$rootScope').$new();
+        $compile = $injector.get('$compile');
 
         createEl = function (exprObjs, expression) {
           exprObjs = exprObjs || [];
@@ -124,26 +125,61 @@
       expect(broadcaster).to.have.been.calledOnce.and.calledWith('$$rebind::k1');
     });
 
-    context('object expression', function() {
-      context('when terse', function() {
+    context('object expression', function () {
+      context('when terse', function () {
         expectBothSingleAndMultiple('{value:dummy}.value');
       });
-      context('when spaces are present', function() {
+      context('when spaces are present', function () {
         expectBothSingleAndMultiple(' { value : dummy }.value ');
       });
     });
 
-    context('array expression', function() {
-      context('when terse', function() {
+    context('array expression', function () {
+      context('when terse', function () {
         expectBothSingleAndMultiple('[null,{value:dummy}][1].value');
       });
-      context('when spaces are present', function() {
+      context('when spaces are present', function () {
         expectBothSingleAndMultiple(' [ null , { value: dummy } ][1].value ');
       });
     });
 
-    function expectBothSingleAndMultiple(expression) {
-      it('handles a single notifier key', function() {
+    context('directive compatibility', function () {
+      var dirs = [
+        'ng-class', 'ng-hide', 'ng-show', 'ng-bind', 'ng-if',
+        'ng-class-even', 'ng-class-odd', 'ng-pattern'
+      ];
+
+      dirs.forEach(function (dir) {
+        it(dir + ' does not increase $$listener count exponentially', function () {
+          $scope.items = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+          var dom = '<div>' +
+                      '<span ng-repeat="i in :f:items" ' + dir + '=":f:i">{{:f:i}}</span>' +
+                    '</div>';
+
+          dom = $compile(dom)($scope);
+          $scope.$digest();
+
+          $scope.$broadcast('$$rebind::f');
+          $scope.$digest();
+
+          $scope.$broadcast('$$rebind::f');
+          $scope.$digest();
+
+          $scope.$broadcast('$$rebind::f');
+          $scope.$digest();
+
+          $scope.$broadcast('$$rebind::f');
+          $scope.$digest();
+
+          var totalCount = $scope.$$listenerCount['$$rebind::f'];
+
+          expect(totalCount).to.eq($scope.items.length * 2 + 1);
+        });
+      });
+    });
+
+    function expectBothSingleAndMultiple (expression) {
+      it('handles a single notifier key', function () {
         createEl([{ k1: 'k1Expr' }], expression);
 
         $scope.dummy = 'glenn';
@@ -151,7 +187,7 @@
 
         expect(span.innerText).to.equal('glenn');
       });
-      it('handles several notifier keys', function() {
+      it('handles several notifier keys', function () {
         createEl([{ k1: 'k1Expr' }, { k2: 'k2Expr' }], expression);
 
         $scope.dummy = 1;

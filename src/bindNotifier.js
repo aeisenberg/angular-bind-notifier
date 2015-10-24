@@ -53,12 +53,19 @@
    * @returns {Function} wrap - A decorated oneTimeWatchDelegate function.
    */
   function dynamicWatcher (expr, notifierKeys) {
+    function setupListeners (scope, cb) {
+      notifierKeys.forEach(function (nk) {
+        scope.$on('$$rebind::' + nk, cb);
+      });
+    }
+
     function wrap (watchDelegate, scope, listener, objectEquality, parsedExpression) {
       var delegateCall = watchDelegate.bind(this, scope, listener, objectEquality, parsedExpression);
 
-      notifierKeys.forEach(function (n) {
-        scope.$on('$$rebind::' + n, delegateCall);
-      });
+      // In a nutshell; If of type 'oneTimeWatchDelegate', add $on listeners.
+      if (/oneTimeWatchDelegate/.test(watchDelegate.toString())) {
+        setupListeners(scope, delegateCall);
+      }
 
       delegateCall();
     }
