@@ -1,5 +1,7 @@
 # angular-bind-notifier
 
+[![Join the chat at https://gitter.im/kasperlewau/angular-bind-notifier](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kasperlewau/angular-bind-notifier?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![travisci](https://travis-ci.org/kasperlewau/angular-bind-notifier.svg?branch=master)](https://travis-ci.org/kasperlewau/angular-bind-notifier) [![bitHound Score](https://www.bithound.io/github/kasperlewau/angular-bind-notifier/badges/score.svg)](https://www.bithound.io/github/kasperlewau/angular-bind-notifier) [![Bower version](https://badge.fury.io/bo/angular-bind-notifier.svg)](http://badge.fury.io/bo/angular-bind-notifier) ![NPM version](https://img.shields.io/npm/v/angular-bind-notifier.svg)
 
 > on-demand & semi-automatic re-evaluation of angular one-time bindings
