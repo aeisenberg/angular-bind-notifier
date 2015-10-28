@@ -62,8 +62,15 @@
     function wrap (watchDelegate, scope, listener, objectEquality, parsedExpression) {
       var delegateCall = watchDelegate.bind(this, scope, listener, objectEquality, parsedExpression);
 
-      // In a nutshell; If of type 'oneTimeWatchDelegate', add $on listeners.
-      if (/oneTimeWatchDelegate/.test(watchDelegate.toString())) {
+      /**
+       * In a nutshell; If the amount of expected arguments of watchDelegate
+       * is over 0 - we are not dealing with a oneTimeWatchDelegate, and as such
+       * we should not setup new listeners.
+       *
+       * #yuck
+       */
+
+      if (watchDelegate.length > 0) {
         setupListeners(scope, delegateCall);
       }
 
