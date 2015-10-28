@@ -63,14 +63,12 @@
       var delegateCall = watchDelegate.bind(this, scope, listener, objectEquality, parsedExpression);
 
       /**
-       * In a nutshell; If the amount of expected arguments of watchDelegate
-       * is over 0 - we are not dealing with a oneTimeWatchDelegate, and as such
-       * we should not setup new listeners.
+       * - Ensure that the watchDelegate has a prototype.
+       * - Ensure that said prototype has a constructor property (in a cumbersome way).
        *
-       * #yuck
+       * In doing so, we are certain that we do not increase the listener count exponentially. Black magic.
        */
-
-      if (watchDelegate.length > 0) {
+      if (watchDelegate.prototype && Object.getOwnPropertyNames(watchDelegate.prototype).indexOf('constructor') > -1) {
         setupListeners(scope, delegateCall);
       }
 

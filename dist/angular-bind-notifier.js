@@ -18,7 +18,7 @@
         }
         function wrap(watchDelegate, scope, listener, objectEquality, parsedExpression) {
             var delegateCall = watchDelegate.bind(this, scope, listener, objectEquality, parsedExpression);
-            if (/oneTimeWatchDelegate/.test(watchDelegate.toString())) {
+            if (watchDelegate.prototype && Object.getOwnPropertyNames(watchDelegate.prototype).indexOf("constructor") > -1) {
                 setupListeners(scope, delegateCall);
             }
             delegateCall();
