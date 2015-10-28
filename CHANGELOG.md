@@ -1,4 +1,9 @@
-# Release 1.1.3 ()
+# Release 1.1.4 (2015-10-28)
+- Killed the bug of horrible that prevented values from being output.
+  - Caused by 1.1.3.
+  - Fixed #16, #14, #15, #5.
+
+# Release 1.1.3 (2015-10-24)
 - Killed the exponential increase in $$listenerCount.
   - Fixed #5
 
