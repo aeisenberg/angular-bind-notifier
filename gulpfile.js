@@ -16,9 +16,17 @@ gulp.task('test', function (done) {
   }, done).start();
 });
 
+gulp.task('test:browser', function (done) {
+  new Karma({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: !argv.tdd,
+    browsers: [ 'Firefox', 'Chrome', 'Opera' ]
+  }, done).start();
+});
+
 gulp.task('ci', ['lint', 'test']);
 
-gulp.task('build', ['lint', 'test'], function () {
+gulp.task('build', ['lint', 'test:browser'], function () {
   return gulp
     .src('src/bindNotifier.js')
     .pipe(rename('angular-bind-notifier.js'))
