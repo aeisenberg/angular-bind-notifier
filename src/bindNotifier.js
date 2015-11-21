@@ -214,8 +214,8 @@
    */
   function $NotifierFactory () {
     return function $Notifier (scope, notifierMap) {
-      if (!scope)       throw new Error('No $scope given');
-      if (!notifierMap) throw new Error('No notifier object given');
+      if (!scope)       { throw new Error('No $scope given'); }
+      if (!notifierMap) { throw new Error('No notifier object given'); }
 
       setupNotifier(scope, notifierMap);
     };

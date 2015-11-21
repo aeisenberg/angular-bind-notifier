@@ -2,11 +2,16 @@ var gulp   = require('gulp');
 var gutil  = require('gulp-util');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
+var eslint = require('gulp-eslint');
 var Karma  = require('karma').Server;
 var argv   = require('minimist')(process.argv.slice(2));
 
 gulp.task('lint', function () {
-  gutil.log(gutil.colors.red('@todo: Implement eslint step.'));
+  return gulp
+    .src(['test/**/!(bind.poly).js', 'src/**/*.js'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
 });
 
 gulp.task('test', function (done) {

@@ -5,7 +5,6 @@
   "main": "dist/angular-bind-notifier.js",
   "scripts": {
     "test": "karma start karma.conf.js",
-    "lint": "jshint src/*.js",
     "build:min": "uglifyjs src/*.js -o dist/angular-bind-notifier.min.js",
     "build:beauty": "uglifyjs src/*.js -o dist/angular-bind-notifier.js -b -i 2",
     "build": "npm run build:min; npm run build:beauty"
@@ -33,10 +32,10 @@
     "angular-mocks": ">= 1.3.15 < 1.5",
     "chai": "^3.2.0",
     "gulp": "^3.9.0",
+    "gulp-eslint": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.4.2",
     "gulp-util": "^3.0.7",
-    "jshint": "^2.8.0",
     "karma": "^0.13.3",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.2.1",
