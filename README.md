@@ -119,8 +119,9 @@ As such, you can manually $broadcast whenever you want to refresh the binds - yo
 $scope.$broadcast('$$rebind::' + 'superduper'); // binding: refreshed!
 ```
 
-## testing
-`npm install; npm test`
+## building/testing
+* `npm install; npm install gulp -g`
+* `gulp [lint|test|test:browser]`
 
 ## license
 MIT © [Kasper Lewau](https://github.com/kasperlewau)
