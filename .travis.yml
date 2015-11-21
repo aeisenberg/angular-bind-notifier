@@ -8,11 +8,10 @@ branches:
     - "master"
 
 before_script:
-  - npm install -g karma karma-cli bower
-  - bower install
   - npm install
+  - npm install -g gulp
 
-script: npm run lint && npm test
+script: gulp ci
 
 email:
   on_failure: change
