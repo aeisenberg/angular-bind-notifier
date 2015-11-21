@@ -24,8 +24,6 @@ gulp.task('test:browser', function (done) {
   }, done).start();
 });
 
-gulp.task('ci', ['lint', 'test']);
-
 gulp.task('build', function () {
   return gulp
     .src('src/bindNotifier.js')
@@ -36,5 +34,6 @@ gulp.task('build', function () {
     .pipe(gulp.dest('dist'));
 });
 
+gulp.task('ci',      ['lint', 'test']);
 gulp.task('package', ['lint', 'test', 'build']);
 gulp.task('default', ['build']);
