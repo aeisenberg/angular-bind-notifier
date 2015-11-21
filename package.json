@@ -4,10 +4,7 @@
   "description": "on demand refreshing of angular bindings",
   "main": "dist/angular-bind-notifier.js",
   "scripts": {
-    "test": "karma start karma.conf.js",
-    "build:min": "uglifyjs src/*.js -o dist/angular-bind-notifier.min.js",
-    "build:beauty": "uglifyjs src/*.js -o dist/angular-bind-notifier.js -b -i 2",
-    "build": "npm run build:min; npm run build:beauty"
+    "test": "./node_modules/.bin/gulp test"
   },
   "repository": {
     "type": "git",
