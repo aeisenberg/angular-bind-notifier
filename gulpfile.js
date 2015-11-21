@@ -26,7 +26,7 @@ gulp.task('test:browser', function (done) {
 
 gulp.task('ci', ['lint', 'test']);
 
-gulp.task('build', ['lint', 'test:browser'], function () {
+gulp.task('build', function () {
   return gulp
     .src('src/bindNotifier.js')
     .pipe(rename('angular-bind-notifier.js'))
@@ -36,4 +36,5 @@ gulp.task('build', ['lint', 'test:browser'], function () {
     .pipe(gulp.dest('dist'));
 });
 
+gulp.task('package', ['lint', 'test', 'build']);
 gulp.task('default', ['build']);
