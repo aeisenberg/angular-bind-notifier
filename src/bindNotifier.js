@@ -59,7 +59,7 @@
       });
     }
 
-    function wrap (watchDelegate, scope, listener, objectEquality, parsedExpression) {
+    function wrapDelegate (watchDelegate, scope, listener, objectEquality, parsedExpression) {
       var delegateCall = watchDelegate.bind(this, scope, listener, objectEquality, parsedExpression);
 
       /**
@@ -75,7 +75,7 @@
       delegateCall();
     }
 
-    return wrap.bind(this, expr.$$watchDelegate);
+    return wrapDelegate.bind(this, expr.$$watchDelegate);
   }
 
   /**
@@ -104,12 +104,13 @@
 
     $parseDecorator.$inject = ['$delegate', 'bindNotifierRegex'];
     function $parseDecorator ($delegate, bindNotifierRegex) {
-      function wrap (parse, exp, interceptor) {
+      function wrapParse (parse, exp, interceptor) {
         var parts, part, expression, rawExpression, notifiers;
 
         if (typeof exp === 'string' && bindNotifierRegex.test(exp)) {
-          parts = exp.split(/:/);
+          parts     = exp.split(/:/);
           notifiers = [];
+
           while (parts.length) {
             part = parts.shift();
             if (part) {
@@ -130,13 +131,11 @@
 
           return expression;
         } else {
-          var args = [exp, interceptor];
-          if (!interceptor) { args.pop(); }
-          return parse.apply(this, args);
+          return parse.call(this, exp, interceptor);
         }
       }
 
-      return wrap.bind(null, $delegate);
+      return wrapParse.bind(null, $delegate);
     }
 
     $provide.decorator('$parse', $parseDecorator);
