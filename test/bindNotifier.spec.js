@@ -178,6 +178,31 @@
       });
     });
 
+    it('can handle a ton of dom elements (200k)', function (done) {
+      this.timeout(20000); // ugh..
+
+      var list = [];
+
+      for (var i = 0; i < 200000; i++) {
+        list.push({ id: i });
+      }
+
+      var dom = '<div>' +
+                  '<span ng-repeat="i in :f:items" ng-bind=":f:i"></span>' +
+                '</div>';
+
+      $scope.items = list;
+
+      function run () {
+        dom = $compile(dom)($scope);
+        $scope.$digest();
+        $scope.$broadcast('$$rebind::f');
+        done();
+      }
+
+      expect(run).to.not.throw();
+    });
+
     function expectBothSingleAndMultiple (expression) {
       it('handles a single notifier key', function () {
         createEl([{ k1: 'k1Expr' }], expression);

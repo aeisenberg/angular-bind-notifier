@@ -47,12 +47,21 @@
    * '$$rebind::[notifierKey]' is caught in the associated $scope, a oneTimeWatchDelegate
    * will be called with the original options and reevaluate the given expression.
    *
+   * If the given expr.$$watchDelegate has already been flagged as 'wrapped', we're hitting this
+   * function again due to some caching behaviour of Angular expressions. In which case,
+   * we should not register additional $on listeners, nor should we re-wrap the given expression.
+   * Exit early o/
+   *
    * @param {String|Function} expr - The expression to evaluate. Can be either a string or a function.
    * @param {Array} notifierKeys - An array of keys to setup $on listeners for.
    *
    * @returns {Function} wrap - A decorated oneTimeWatchDelegate function.
    */
   function dynamicWatcher (expr, notifierKeys) {
+    if (expr.$$watchDelegate.wrapped) {
+      return expr.$$watchDelegate;
+    }
+
     function setupListeners (scope, cb) {
       notifierKeys.forEach(function (nk) {
         scope.$on('$$rebind::' + nk, cb);
@@ -61,21 +70,14 @@
 
     function wrapDelegate (watchDelegate, scope, listener, objectEquality, parsedExpression) {
       var delegateCall = watchDelegate.bind(this, scope, listener, objectEquality, parsedExpression);
-
-      /**
-       * - Ensure that the watchDelegate has a prototype.
-       * - Ensure that said prototype has a constructor property (in a cumbersome way).
-       *
-       * In doing so, we are certain that we do not increase the listener count exponentially. Black magic.
-       */
-      if (watchDelegate.prototype && Object.getOwnPropertyNames(watchDelegate.prototype).indexOf('constructor') > -1) {
-        setupListeners(scope, delegateCall);
-      }
-
+      setupListeners(scope, delegateCall);
       delegateCall();
     }
 
-    return wrapDelegate.bind(this, expr.$$watchDelegate);
+    var delegate     = wrapDelegate.bind(this, expr.$$watchDelegate);
+    delegate.wrapped = true;
+
+    return delegate;
   }
 
   /**
