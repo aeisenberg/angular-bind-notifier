@@ -186,7 +186,7 @@
 
       var list = [];
 
-      for (var i = 0; i < 200000; i++) {
+      for (var i = 0; i < 100000; i++) {
         list.push({ id: i });
       }
 
@@ -196,14 +196,14 @@
 
       $scope.items = list;
 
-      function run () {
+      function slowRun () {
         dom = $compile(dom)($scope);
         $scope.$digest();
         rebindAndDigest($scope, 2);
         done();
       }
 
-      expect(run).to.not.throw();
+      expect(slowRun).to.not.throw();
     });
 
     function expectBothSingleAndMultiple (expression) {
@@ -229,16 +229,17 @@
     }
 
     function getWatchers(root) {
-      root = angular.element(root || document.documentElement);
-      var watcherCount = 0;
+      root = angular.element(root);
 
       function getElemWatchers(element) {
         var isolateWatchers = getWatchersFromScope(element.data().$isolateScope);
         var scopeWatchers = getWatchersFromScope(element.data().$scope);
         var watchers = scopeWatchers.concat(isolateWatchers);
+
         angular.forEach(element.children(), function (childElement) {
           watchers = watchers.concat(getElemWatchers(angular.element(childElement)));
         });
+
         return watchers;
       }
 
