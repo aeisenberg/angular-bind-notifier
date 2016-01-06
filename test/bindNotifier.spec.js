@@ -159,27 +159,30 @@
           dom = $compile(dom)($scope);
           $scope.$digest();
 
-          $scope.$broadcast('$$rebind::f');
-          $scope.$digest();
-
-          $scope.$broadcast('$$rebind::f');
-          $scope.$digest();
-
-          $scope.$broadcast('$$rebind::f');
-          $scope.$digest();
-
-          $scope.$broadcast('$$rebind::f');
-          $scope.$digest();
+          rebindAndDigest($scope, 2000);
 
           var totalCount = $scope.$$listenerCount['$$rebind::f'];
 
-          expect(totalCount).to.eq($scope.items.length * 2 + 1);
+          expect(totalCount).to.be.at.most($scope.items.length * 2 + 1);
+        });
+
+        it(dir + ' does not increase $$watcher count to a ridiculous amount', function () {
+          $scope.items = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+          var dom = '<div>' +
+                      '<span ng-repeat="i in :f:items" ' + dir + '=":f:i">{{:f:i}}</span>' +
+                    '</div>';
+
+          dom = $compile(dom)($scope);
+
+          rebindAndDigest($scope, 2000);
+
+          expect(getWatchers(dom).length).to.be.at.most($scope.items.length);
         });
       });
     });
 
     it('can handle a ton of dom elements (200k)', function (done) {
-      this.timeout(20000); // ugh..
+      this.timeout(25000); // ugh..
 
       var list = [];
 
@@ -196,7 +199,7 @@
       function run () {
         dom = $compile(dom)($scope);
         $scope.$digest();
-        $scope.$broadcast('$$rebind::f');
+        rebindAndDigest($scope, 2);
         done();
       }
 
@@ -223,6 +226,38 @@
         run('k2Expr');
         expect(span.innerText).to.equal('2');
       });
+    }
+
+    function getWatchers(root) {
+      root = angular.element(root || document.documentElement);
+      var watcherCount = 0;
+
+      function getElemWatchers(element) {
+        var isolateWatchers = getWatchersFromScope(element.data().$isolateScope);
+        var scopeWatchers = getWatchersFromScope(element.data().$scope);
+        var watchers = scopeWatchers.concat(isolateWatchers);
+        angular.forEach(element.children(), function (childElement) {
+          watchers = watchers.concat(getElemWatchers(angular.element(childElement)));
+        });
+        return watchers;
+      }
+
+      function getWatchersFromScope(scope) {
+        if (scope) {
+          return scope.$$watchers || [];
+        } else {
+          return [];
+        }
+      }
+
+      return getElemWatchers(root);
+    }
+
+    function rebindAndDigest (scope, times) {
+      for (var i = 0; i < times; i++) {
+        scope.$broadcast('$$rebind::f');
+        scope.$digest();
+      }
     }
   });
 
