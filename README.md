@@ -35,6 +35,16 @@ Possible use cases include but are not limited to;
 * Model data that changes seldomly, that then needs to be reflected in the view.
 * Translation(s) of the entire page (or a subsection), where static data needs to be re-translated.
 
+Keys are determined by the following rules:
+
+- surrounded by `:` character
+- consists only of alphanumeric characters and `-`
+- cannot start with a `-`
+- is at the start of the binding or follows another key
+
+For example: in `:keyOne:key-2:3:variable | someFilter:true:10` the following are keys: `keyOne`, `key-2`, `3` and the 
+remaining contents are the expression due to `variable | someFilter` not matching the rules of being a key
+
 ## usage
 ```js
 // inject the module dependency
