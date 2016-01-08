@@ -116,7 +116,7 @@
           while (parts.length) {
             part = parts.shift();
             if (part) {
-              if (/^\s*[\{\[]/.test(part)) {
+              if (!/^\w+$/.test(part)) {
                 rawExpression = [part].concat(parts).join(':');
                 break;
               }
