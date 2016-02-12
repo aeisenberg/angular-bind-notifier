@@ -104,37 +104,37 @@
   ParseDecorator.$inject = ['$provide'];
   function ParseDecorator ($provide) {
 
-    $parseDecorator.$inject = ['$delegate', 'bindNotifierRegex'];
-    function $parseDecorator ($delegate, bindNotifierRegex) {
+    $parseDecorator.$inject = ['$delegate', 'bindNotifierRegex', 'bindNotifierKeyRegex'];
+    function $parseDecorator ($delegate, bindNotifierRegex, bindNotifierKeyRegex) {
       function wrapParse (parse, exp, interceptor) {
         var parts, part, expression, rawExpression, notifiers;
 
-        if (typeof exp === 'string' && bindNotifierRegex.test(exp)) {
-          parts     = exp.split(/:/);
-          notifiers = [];
-
-          while (parts.length) {
-            part = parts.shift();
-            if (part) {
-              if (/^\s*[\{\[]/.test(part)) {
-                rawExpression = [part].concat(parts).join(':');
-                break;
-              }
-              notifiers.push(part);
-            }
-          }
-
-          if (!rawExpression) {
-            rawExpression = notifiers.splice(-1, 1)[0];
-          }
-
-          expression = parse.call(this, '::' + rawExpression, interceptor);
-          expression.$$watchDelegate = dynamicWatcher(expression, notifiers);
-
-          return expression;
-        } else {
+        if (typeof exp !== 'string' || !bindNotifierRegex.test(exp)) {
           return parse.call(this, exp, interceptor);
         }
+
+        parts = exp.split(':');
+        notifiers = [];
+
+        while (parts.length) {
+          part = parts.shift();
+          if (part) {
+            if (!bindNotifierKeyRegex.test(part)) {
+              rawExpression = [part].concat(parts).join(':');
+              break;
+            }
+            notifiers.push(part);
+          }
+        }
+
+        if (!rawExpression) {
+          rawExpression = notifiers.splice(-1, 1)[0];
+        }
+
+        expression = parse.call(this, '::' + rawExpression, interceptor);
+        expression.$$watchDelegate = dynamicWatcher(expression, notifiers);
+
+        return expression;
       }
 
       return wrapParse.bind(null, $delegate);
@@ -241,6 +241,7 @@
    */
   angular
     .module('angular.bind.notifier', [])
+    .constant('bindNotifierKeyRegex', /^[a-zA-Z0-9][\w-]*$/)
     .constant('bindNotifierRegex', /^:([a-zA-Z0-9][\w-]*):(.+)$/)
     .factory('$Notifier', $NotifierFactory)
     .directive('bindNotifier', bindNotifierDirective)
