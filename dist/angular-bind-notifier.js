@@ -118,7 +118,7 @@
 
         while (parts.length) {
           part = parts.shift();
-          if (part) {
+          if (part && /^\s*$/.test(part) === false) {
             if (!bindNotifierKeyRegex.test(part)) {
               rawExpression = [part].concat(parts).join(':');
               break;
