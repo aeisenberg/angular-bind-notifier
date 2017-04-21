@@ -17,7 +17,8 @@
       expect(!!subject).to.be.true;
     });
 
-    [':key:expr', ':999:expr', ':KEY:expr', ':key:-123', ' :key:watevs', ':key:wat ', ' :key:q '].forEach(isMatch);
+    [':key:expr', ':999:expr', ':KEY:expr', ':key:-123', ' :key:watevs', ':key:wat ', ' :key:q ',
+     ':key:{key: expr}', ':key:{"key-test": expr}', ':key:{"key1":exp,\n"key2":exp2}' ].forEach(isMatch);
     [':keyexpr', 'key:expr', ':key:', '::key:expr'].forEach(isNotMatch);
 
     // Helpers

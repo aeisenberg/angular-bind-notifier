@@ -242,7 +242,7 @@
   angular
     .module('angular.bind.notifier', [])
     .constant('bindNotifierKeyRegex', /^[a-zA-Z0-9][\w-]*$/)
-    .constant('bindNotifierRegex', /^[\s]*:([a-zA-Z0-9][\w-]*):(.+)$/)
+    .constant('bindNotifierRegex', /^[\s]*:([a-zA-Z0-9][\w-]*):(.+\n?)+$/)
     .factory('$Notifier', $NotifierFactory)
     .directive('bindNotifier', bindNotifierDirective)
     .config(ParseDecorator);
