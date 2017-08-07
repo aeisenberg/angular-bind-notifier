@@ -1,4 +1,10 @@
-# angular-bind-notifier
+# NOT MAINTAINED
+
+As I no longer use AngularJS in production, this project is for all intents and purposes **unmaintaned**. If you find a bug, submit a PR (w/ tests!) and I'll merge it as soon as I get my hands free. 
+
+If you'd like PR/push priveleges, hit me up and I'll get you sorted!
+
+## angular-bind-notifier
 
 [![Join the chat at https://gitter.im/kasperlewau/angular-bind-notifier](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kasperlewau/angular-bind-notifier?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -6,9 +12,9 @@
 
 > on-demand & semi-automatic re-evaluation of angular one-time bindings
 
-## 'ok' examples @ [gh-pages](http://kasperlewau.github.io/angular-bind-notifier/)
+### 'ok' examples @ [gh-pages](http://kasperlewau.github.io/angular-bind-notifier/)
 
-## installation
+### installation
 ```js
   bower install angular-bind-notifier --save
   jspm install angular-bind-notifier --save
@@ -17,7 +23,7 @@
   <script src="path/to/angular-bind-notifier/dist/angular-bind-notifier.js"></script>
 ```
 
-## description
+### description
 This package is meant for those looking for a middleground between two way binding, and one time bindings. *someTimeBinding?*
 
 Based off of the work done by [@kseamon](https://github.com/kseamon/fast-bind) on fast-bind, [a proposal from August 2014 on labeled bindings](https://docs.google.com/document/d/1fTqaaQYD2QE1rz-OywvRKFSpZirbWUPsnfaZaMq8fWI/edit#) and [@kasperlewau's bower port of fast-bind](https://github.com/kasperlewau/fast-bind),
@@ -45,13 +51,13 @@ Keys are determined by the following rules:
 For example: in `:keyOne:key-2:3:variable | someFilter:true:10` the following are keys: `keyOne`, `key-2`, `3` and the 
 remaining contents are the expression due to `variable | someFilter` not matching the rules of being a key
 
-## usage
+### usage
 ```js
 // inject the module dependency
 angular.module('your_module_name', [ 'angular.bind.notifier' ]);
 ```
 
-### bind-notifier
+#### bind-notifier
 > [jsbin example](http://jsbin.com/boxafasibo/1/edit?html,js,output)
 
 
@@ -88,7 +94,7 @@ angular.module('your_module_name', [ 'angular.bind.notifier' ]);
 </div>
 ```
 
-### $Notifier(scope, notifierMap)
+#### $Notifier(scope, notifierMap)
 > [jsbin example](http://jsbin.com/zelaqimihe/1/edit?html,js,output)
 
 The `$Notifier` *factory* returns a constructor function for you to setup a new $Notifier instance.
@@ -112,7 +118,7 @@ Both params (`$scope` & `notifierMap`) are **required**, a lack of either is con
 <span ng-bind=":bNameSpace:expression"></span>
 ```
 
-### manual refreshment
+#### manual refreshment
 > [jsbin example](http://jsbin.com/tovexareje/1/edit?html,js,output)
 
 The above use cases showcase how $watched expressions refresh bindings.
@@ -129,9 +135,9 @@ As such, you can manually $broadcast whenever you want to refresh the binds - yo
 $scope.$broadcast('$$rebind::' + 'superduper'); // binding: refreshed!
 ```
 
-## building/testing
+### building/testing
 * `npm install; npm install gulp -g`
 * `gulp [lint|test|test:browser]`
 
-## license
+### license
 MIT © [Kasper Lewau](https://github.com/kasperlewau)
