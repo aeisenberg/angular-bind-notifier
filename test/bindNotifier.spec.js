@@ -12,8 +12,9 @@
         $scope   = $injector.get('$rootScope').$new();
         $compile = $injector.get('$compile');
 
-        createEl = function (exprObjs, expression) {
+        createEl = function (exprObjs, expression, prefix) {
           exprObjs = exprObjs || [];
+          prefix = prefix || '';
 
           var keys = [], values = [];
 
@@ -33,7 +34,7 @@
           });
 
           var tpl = '<div bind-notifier="{ ' + string + ' }">' +
-                      '<span>{{:' + keys.join(':') + ':' + expression + '}}</span>' +
+                      '<span>{{' + prefix + ':' + keys.join(':') + ':' + expression + '}}</span>' +
                     '</div>';
 
           el          = $compile(tpl)($scope);
@@ -52,6 +53,11 @@
 
     it('creates a child scope', function () {
       createEl([{ k1: 'k1Expr', k2: 'k2Expr' }]);
+      expect(el.scope()).to.not.equal($scope);
+    });
+
+    it('handles spaces before initial key', function () {
+      createEl([{ k1: 'k1Expr', k2: 'k2Expr' }], undefined, ' ');
       expect(el.scope()).to.not.equal($scope);
     });
 
