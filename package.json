@@ -39,11 +39,12 @@
     "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.2.0",
     "karma-opera-launcher": "^0.3.0",
-    "karma-phantomjs-launcher": "^0.2.0",
+    "karma-phantomjs-launcher": "^1.0.0",
     "karma-sinon-chai": "0.3.2",
     "minimist": "^1.2.0",
     "mocha": "^2.2.5",
-    "phantomjs": "^1.9.17",
+    "phantomjs-prebuilt": "^2.1.16",
     "uglify-js": "^2.4.24"
-  }
+  },
+  "dependencies": {}
 }
