@@ -159,7 +159,7 @@
         it(dir + ' does not increase $$listener count exponentially', function () {
           $scope.items = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
           var dom = '<div>' +
-                      '<span ng-repeat="i in :f:items" ' + dir + '=":f:i">{{:f:i}}</span>' +
+                      '<span ng-repeat="i in :f:items" ' + dir + '=":f:\'i\'">{{:f:i}}</span>' +
                     '</div>';
 
           dom = $compile(dom)($scope);
@@ -175,7 +175,7 @@
         it(dir + ' does not increase $$watcher count to a ridiculous amount', function () {
           $scope.items = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
           var dom = '<div>' +
-                      '<span ng-repeat="i in :f:items" ' + dir + '=":f:i">{{:f:i}}</span>' +
+                      '<span ng-repeat="i in :f:items" ' + dir + '=":f:\'i\'">{{:f:i}}</span>' +
                     '</div>';
 
           dom = $compile(dom)($scope);
