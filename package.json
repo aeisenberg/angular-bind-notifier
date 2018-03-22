@@ -19,7 +19,9 @@
     "angular-dynamic-bind"
   ],
   "author": "Kasper Lewau <lewauu@gmail.com> (https://github.com/kasperlewau)",
-  "contributors": [ "Andrew Eisenberg <andrew.eisenberg@gmail.com> (https://github.com/aeisenberg)" ],
+  "contributors": [
+    "Andrew Eisenberg <andrew.eisenberg@gmail.com> (https://github.com/aeisenberg)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/aeisenberg/angular-bind-notifier/issues"
