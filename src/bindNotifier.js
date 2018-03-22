@@ -71,7 +71,7 @@
     function wrapDelegate (watchDelegate, scope, listener, objectEquality, parsedExpression) {
       var delegateCall = watchDelegate.bind(this, scope, listener, objectEquality, parsedExpression);
       setupListeners(scope, delegateCall);
-      delegateCall();
+      return delegateCall();
     }
 
     var delegate     = wrapDelegate.bind(this, expr.$$watchDelegate);
