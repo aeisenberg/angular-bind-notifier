@@ -1,6 +1,6 @@
 {
   "name": "angular-bind-notifier",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "on demand refreshing of angular bindings",
   "main": "dist/angular-bind-notifier.js",
   "scripts": {

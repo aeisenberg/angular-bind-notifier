@@ -1,3 +1,11 @@
+# Release 1.1.10 (2018-04-12)
+- Ensures wrapDelegate returns a value
+  - Fixed #41
+
+# Release 1.1.9 (2018-03-21)
+- Fixes Leading Whitespace in watch expression still causes parse error
+  - Fixed #29
+
 # Release 1.1.4 (2015-10-28)
 - Killed the bug of horrible that prevented values from being output.
   - Caused by 1.1.3.
