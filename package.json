@@ -1,6 +1,6 @@
 {
   "name": "angular-bind-notifier",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "on demand refreshing of angular bindings",
   "main": "dist/angular-bind-notifier.js",
   "scripts": {
@@ -45,7 +45,7 @@
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-sinon-chai": "0.3.2",
     "minimist": "^1.2.0",
-    "mocha": "^2.2.5",
+    "mocha": "^5.2.0",
     "phantomjs-prebuilt": "^2.1.16",
     "uglify-js": "^2.4.24"
   },
