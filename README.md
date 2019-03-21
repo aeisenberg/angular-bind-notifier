@@ -4,7 +4,7 @@
 
 > On-demand & semi-automatic re-evaluation of angular one-time bindings
 
-### 'ok' examples @ [gh-pages](http://kasperlewau.github.io/angular-bind-notifier/)
+### 'ok' examples @ [gh-pages](http://aeisenberg.github.io/angular-bind-notifier/)
 
 ### installation
 ```js
@@ -132,4 +132,4 @@ $scope.$broadcast('$$rebind::' + 'superduper'); // binding: refreshed!
 * `gulp [lint|test|test:browser]`
 
 ### license
-MIT © [Kasper Lewau](https://github.com/kasperlewau)
+MIT © [Kasper Lewau](https://github.com/kasperlewau) and [Andrew Eisenberg](https://github.com/aeisenberg)
